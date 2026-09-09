@@ -1,0 +1,48 @@
+services:
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: self-healing-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - selfhealing-net
+
+  backend:
+    build:
+      context: ./Self-Healing-Infrastructure-Dashboard-Backend
+      dockerfile: Dockerfile
+    container_name: self-healing-backend
+    ports:
+      - "8082:8081"
+    depends_on:
+      - mysql
+    restart: on-failure
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - selfhealing-net
+
+  mysql:
+    image: mysql:8.0
+    container_name: self-healing-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: selfhealing_db
+      MYSQL_USER: selfhealing
+      MYSQL_PASSWORD: selfhealing123
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - selfhealing-net
+
+networks:
+  selfhealing-net:
+    driver: bridge
+
+volumes:
+  mysql-data:
