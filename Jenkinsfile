@@ -23,7 +23,7 @@ pipeline {
 
         stage('Build Frontend') {
             steps {
-                dir('Self-Healing-Infrastructure-Dashboard-Frontend') {
+                dir('Self-Healing Infrastructure Dashboard') {
                     sh 'npm install'
                     sh 'npm run build'
                 }
