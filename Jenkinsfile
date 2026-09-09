@@ -35,6 +35,7 @@ pipeline {
 
                     docker build -t nadeesha1/self-healing-frontend:latest ./Self-Healing-Infrastructure-Dashboard-Frontend
                 '''
+                
             }
         }
         stage('push to docker hub') {
