@@ -35,7 +35,7 @@ pipeline {
                 sh '''
                     docker build -t nadeesha1/self-healing-backend:latest ./Self-Healing-Infrastructure-Dashboard-Backend
 
-                    docker build -t nadeesha1/self-healing-frontend:latest ./Self-Healing-Infrastructure-Dashboard-Frontend
+                    docker build -t nadeesha1/self-healing-frontend:latest ./Self-Healing-Infrastructure-Dashboard
                 '''
             }
         }
