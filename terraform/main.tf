@@ -10,7 +10,7 @@ resource "aws_security_group" "self_healing_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["175.157.116.189/32"]
+    cidr_blocks = ["175.157.229.3/32"]
 
   }
   ingress {
