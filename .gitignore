@@ -1,0 +1,15 @@
+#Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+
+#private key
+*.pem
+
+#Environment / secrets
+.env
+.env.*
+
+#node
+node_modules/
