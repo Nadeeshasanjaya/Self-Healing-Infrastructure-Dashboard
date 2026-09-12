@@ -52,16 +52,29 @@ pipeline {
                 '''
             }
         }
-        stage('Deploy to EC2') {
+       stage('Deploy to EC2') {
     steps {
-        sshagent(['ec2-self-healing']) {
-            sh '''
-                ssh -o StrictHostKeyChecking=no ubuntu@13.235.83.175 "
-                    cd ~/self-healing &&
-                    sudo docker compose pull &&
-                    sudo docker compose up -d
-                "
-            '''
+        withCredentials([usernamePassword(
+            credentialsId: 'aws-jenkins',
+            usernameVariable: 'AWS_ACCESS_KEY_ID',
+            passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+        )]) {
+            sshagent(['ec2-self-healing']) {
+                sh '''
+                    EC2_IP=$(aws ec2 describe-instances \
+                        --instance-ids i-06ebd4293b71ed358 \
+                        --query 'Reservations[0].Instances[0].PublicIpAddress' \
+                        --output text)
+
+                    echo "Current EC2 IP: $EC2_IP"
+
+                    ssh -o StrictHostKeyChecking=no ubuntu@$EC2_IP "
+                        cd ~/self-healing &&
+                        sudo docker compose pull &&
+                        sudo docker compose up -d
+                    "
+                '''
+            }
         }
     }
 }
