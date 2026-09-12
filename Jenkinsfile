@@ -52,26 +52,19 @@ pipeline {
                 '''
             }
         }
-        stage('deploy to EC2'){
-           
-            steps{
-
-                sshagent(['ec2-self-healing']){
-        
-                    sh '''
-                        ssh -o StrictHostKeyChecking=no ubuntu@13.235.83.175 "
-                        cd ~/self-healing &&
-                        sudo docker compose pull &&
-                        sudo docker compose up -d"
-
-                        ...
-
-
-                }
-            }
-
-
+        stage('Deploy to EC2') {
+    steps {
+        sshagent(['ec2-self-healing']) {
+            sh '''
+                ssh -o StrictHostKeyChecking=no ubuntu@13.235.83.175 "
+                    cd ~/self-healing &&
+                    sudo docker compose pull &&
+                    sudo docker compose up -d
+                "
+            '''
         }
+    }
+}
     }
 }
 
