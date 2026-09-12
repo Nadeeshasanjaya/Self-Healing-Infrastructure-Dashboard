@@ -62,9 +62,10 @@ pipeline {
             sshagent(['ec2-self-healing']) {
                 sh '''
                     EC2_IP=$(aws ec2 describe-instances \
-                        --instance-ids i-06ebd4293b71ed358 \
-                        --query 'Reservations[0].Instances[0].PublicIpAddress' \
-                        --output text)
+    --region ap-south-1 \
+    --instance-ids i-06ebd4293b71ed358 \
+    --query 'Reservations[0].Instances[0].PublicIpAddress' \
+    --output text)
 
                     echo "Current EC2 IP: $EC2_IP"
 
